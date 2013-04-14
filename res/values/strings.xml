@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name">A2DP Connect</string>
+    <string name="ButtonString">Connect</string>
+    <string name="InvalidDevice">Invalid Device</string>
+    <string name="NullDevice">Null Device</string>
+    <string name="Connecting">Connecting</string>
+    <string name="Disconnecting">Disconnecting</string>
+    <string name="BuilderTitle">Bluetooth Device</string>
+    <string name="NoBluetooth">Device does not have Bluetooth enabled</string>
+    <string name="NeedEnable">Bluetooth must be enabled before you can place a widget</string>
+    <string name="BTNotEnabled">Bluetooth not enabled</string>
+    <string name="InterfaceError">Interface error</string>
+</resources>
