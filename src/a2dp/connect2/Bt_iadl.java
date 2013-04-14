@@ -80,22 +80,18 @@ public class Bt_iadl {
 
 	};
 
-	public static IBluetoothA2dp getIBluetoothA2dp(Context context) {
+	public static void getIBluetoothA2dp(Context context) {
 
-		IBluetoothA2dp ibta = null;
 		c1 = context;
 
 		Intent i = new Intent(IBluetoothA2dp.class.getName());
 
 		if (context.bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
-
-			return ibta2;
-
+		
 		} else {
 			// Log.e(TAG, "Could not bind to Bluetooth A2DP Service");
 		}
 
-		return ibta;
 	}
 
 	private static void sendIntent() {

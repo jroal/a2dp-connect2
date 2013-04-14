@@ -5,6 +5,7 @@ import java.util.Set;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.IBluetooth;
 import android.bluetooth.IBluetoothA2dp;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -79,21 +80,19 @@ public class Connector extends Service {
 					return START_REDELIVER_INTENT;
 				}
 
+				BluetoothAdapter mBTA = BluetoothAdapter.getDefaultAdapter();
+/*				if (mBTA == null || !mBTA.isEnabled())
+					return false;
+*/
 				Set<BluetoothDevice> pairedDevices = bta.getBondedDevices();
-				// BluetoothDevice device = null;
-
-				/*for (BluetoothDevice dev : pairedDevices) {
-					if (dev.getAddress().equalsIgnoreCase(bt_mac)) {
+				for (BluetoothDevice dev : pairedDevices) {
+					if (dev.getAddress().equalsIgnoreCase(bt_mac))
 						device = dev;
-						// dname = a2dp.connect.Bt_iadl.getName(device);
-						dname = preferences.getString(w_id
-								+ "_name", dname);
-					}
-				}*/
-
-				IBluetoothA2dp ibta = null;
-
-				ibta = a2dp.connect2.Bt_iadl.getIBluetoothA2dp(this
+				}
+//				if (device == null)
+//					return false;
+				
+				a2dp.connect2.Bt_iadl.getIBluetoothA2dp(this
 						.getBaseContext());
 
 			} else {
@@ -117,6 +116,7 @@ public class Connector extends Service {
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
 			IBluetoothA2dp ibta = a2dp.connect2.Bt_iadl.ibta2;
+			
 			try {
 				if (ibta != null && ibta.getConnectionState(device) == 0) {
 					Toast.makeText(application,
@@ -190,9 +190,7 @@ public class Connector extends Service {
 			/*
 			 * mBTA.cancelDiscovery(); mBTA.startDiscovery();
 			 */
-
-			IBluetoothA2dp ibta = a2dp.connect2.Bt_iadl
-					.getIBluetoothA2dp(a2dp.connect2.Connector.this);
+			IBluetoothA2dp ibta = a2dp.connect2.Bt_iadl.ibta2;
 			try {
 				Log.d(LOG_TAG, "Here: " + ibta.getPriority(device));
 				if (ibta != null && ibta.getConnectionState(device) == 0)
