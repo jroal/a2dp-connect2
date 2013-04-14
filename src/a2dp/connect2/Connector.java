@@ -81,16 +81,16 @@ public class Connector extends Service {
 				}
 
 				BluetoothAdapter mBTA = BluetoothAdapter.getDefaultAdapter();
-/*				if (mBTA == null || !mBTA.isEnabled())
-					return false;
-*/
+				if (mBTA == null || !mBTA.isEnabled())
+					return START_REDELIVER_INTENT;
+
 				Set<BluetoothDevice> pairedDevices = bta.getBondedDevices();
 				for (BluetoothDevice dev : pairedDevices) {
 					if (dev.getAddress().equalsIgnoreCase(bt_mac))
 						device = dev;
 				}
-//				if (device == null)
-//					return false;
+				if (device == null)
+					return START_REDELIVER_INTENT;
 				
 				a2dp.connect2.Bt_iadl.getIBluetoothA2dp(this
 						.getBaseContext());
@@ -209,7 +209,7 @@ public class Connector extends Service {
 
 	private void done() {
 		// this.finish();
-
+		a2dp.connect2.Bt_iadl.doUnbindService();
 		this.stopSelf();
 
 	}

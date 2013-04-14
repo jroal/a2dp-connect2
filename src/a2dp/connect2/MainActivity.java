@@ -20,6 +20,8 @@ public class MainActivity extends Activity {
 	protected void onDestroy() {
 		try {
 			application.unregisterReceiver(receiver1);
+			a2dp.connect2.Bt_iadl.doUnbindService();
+			receiver_registered = false;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -28,6 +30,7 @@ public class MainActivity extends Activity {
 	}
 
 	private String PREFS = "bluetoothlauncher";
+	static boolean receiver_registered = false;
 
 	// int w_id = 0;
 	int mAppWidgetId;
@@ -50,7 +53,8 @@ public class MainActivity extends Activity {
 
 		IntentFilter f1 = new IntentFilter(Bt_iadl.NameFilter);
 		this.registerReceiver(receiver1, f1);
-		
+		receiver_registered = true;
+
 		config(mAppWidgetId);
 
 	}
@@ -79,7 +83,7 @@ public class MainActivity extends Activity {
 		}
 		// Toast.makeText(this, "Bluetooth", Toast.LENGTH_LONG).show();
 		int i = 0;
-			a2dp.connect2.Bt_iadl.getNameJB(application);
+		a2dp.connect2.Bt_iadl.getNameJB(application);
 	}
 
 	void createList(int length) {

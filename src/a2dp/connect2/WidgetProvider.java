@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,21 +64,9 @@ public class WidgetProvider extends AppWidgetProvider {
 			views.setOnClickPendingIntent(R.id.WidgetButton, pendingIntent);
 
 			String WidgetId = String.valueOf(appWidgetId);
-			String bt_mac = preferences.getString(WidgetId, "Oops");
+			//String bt_mac = preferences.getString(WidgetId, "Oops");
 			String dname = preferences.getString(WidgetId + "_name", "Connect " + i);
 			
-			if (bta.isEnabled()) {
-				BluetoothDevice device = null;
-				dname = "bad name";
-				Set<BluetoothDevice> pairedDevices = bta.getBondedDevices();
-				for (BluetoothDevice dev : pairedDevices) {
-					if (dev.getAddress().equalsIgnoreCase(bt_mac)) {
-						device = dev;
-						dname = preferences.getString(appWidgetId + "_name", dname);
-					}
-				}
-			}
-
 			views.setTextViewText(R.id.WidgetButton, dname);
 			// Tell the AppWidgetManager to perform an update on the current App
 			// Widget
