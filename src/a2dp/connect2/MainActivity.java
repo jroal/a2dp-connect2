@@ -19,15 +19,34 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		try {
-			application.unregisterReceiver(receiver1);
-			a2dp.connect2.Bt_iadl.doUnbindService();
-			receiver_registered = false;
+			if (receiver_registered) {
+				application.unregisterReceiver(receiver1);
+				receiver_registered = false;
+			}
+			a2dp.connect2.Bt_iadl.doUnbindService2(application);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		super.onDestroy();
 	}
+
+	@Override
+	protected void onStart() {
+		if (!receiver_registered) {
+			IntentFilter f1 = new IntentFilter(Bt_iadl.NameFilter);
+			application.registerReceiver(receiver1, f1);
+			receiver_registered = true;
+		}
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+
+		super.onStop();
+	}
+
 
 	private String PREFS = "bluetoothlauncher";
 	static boolean receiver_registered = false;
@@ -51,10 +70,7 @@ public class MainActivity extends Activity {
 					AppWidgetManager.INVALID_APPWIDGET_ID);
 		}
 
-		IntentFilter f1 = new IntentFilter(Bt_iadl.NameFilter);
-		this.registerReceiver(receiver1, f1);
-		receiver_registered = true;
-
+		
 		config(mAppWidgetId);
 
 	}
@@ -82,7 +98,11 @@ public class MainActivity extends Activity {
 			 */return;
 		}
 		// Toast.makeText(this, "Bluetooth", Toast.LENGTH_LONG).show();
-		int i = 0;
+		if (!receiver_registered) {
+			IntentFilter f1 = new IntentFilter(Bt_iadl.NameFilter);
+			application.registerReceiver(receiver1, f1);
+			receiver_registered = true;
+		}
 		a2dp.connect2.Bt_iadl.getNameJB(application);
 	}
 

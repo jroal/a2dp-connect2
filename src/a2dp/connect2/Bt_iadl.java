@@ -126,16 +126,25 @@ public class Bt_iadl {
 
 	};
 
-	public static void doUnbindService() {
+	public static void doUnbindService(Context context) {
 		if (mIsBound) {
 			// Detach our existing connection.
-			c1.unbindService(mConnection);
+			try {
+				context.unbindService(mConnection);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 
+
+	}
+	
+	public static void doUnbindService2(Context context){
 		if (m2IsBound) {
 			try {
-				c1.unbindService(mConnection2);
+				context.unbindService(mConnection2);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

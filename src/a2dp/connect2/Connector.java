@@ -23,14 +23,15 @@ public class Connector extends Service {
 
 	@Override
 	public void onDestroy() {
-		this.unregisterReceiver(receiver);
+		//this.unregisterReceiver(receiver);
+
 		super.onDestroy();
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		this.unregisterReceiver(receiver);
+
+
 		super.finalize();
 	}
 
@@ -40,6 +41,8 @@ public class Connector extends Service {
 	private BluetoothDevice device = null;
 	private String dname;
 	private String bt_mac;
+	boolean serviceRegistered = false;
+	boolean receiverRegistered = false;
 	// private static final String MY_UUID_STRING =
 	// "af87c0d0-faac-11de-a839-0800200c9a67";
 	Context application;
@@ -92,8 +95,14 @@ public class Connector extends Service {
 				if (device == null)
 					return START_REDELIVER_INTENT;
 				
-				a2dp.connect2.Bt_iadl.getIBluetoothA2dp(this
-						.getBaseContext());
+				a2dp.connect2.Bt_iadl.getIBluetoothA2dp(application);
+				serviceRegistered = true;
+				
+				if (!receiverRegistered) {
+					String filter_1_string = "a2dp.connect2.Connector.INTERFACE";
+					IntentFilter filter1 = new IntentFilter(filter_1_string);
+					this.registerReceiver(receiver, filter1);
+				}
 
 			} else {
 				Toast.makeText(application,
@@ -146,6 +155,9 @@ public class Connector extends Service {
 		String filter_1_string = "a2dp.connect2.Connector.INTERFACE";
 		IntentFilter filter1 = new IntentFilter(filter_1_string);
 		this.registerReceiver(receiver, filter1);
+		receiverRegistered = true;
+		a2dp.connect2.Bt_iadl.getIBluetoothA2dp(application);
+		serviceRegistered = true;
 	}
 
 	private void connectBluetoothA2dp(String device) {
@@ -208,8 +220,12 @@ public class Connector extends Service {
 	}
 
 	private void done() {
-		// this.finish();
-		a2dp.connect2.Bt_iadl.doUnbindService();
+		if (receiverRegistered) {
+			this.unregisterReceiver(receiver);
+		}
+		if (serviceRegistered) {
+			a2dp.connect2.Bt_iadl.doUnbindService(application);
+		}
 		this.stopSelf();
 
 	}
