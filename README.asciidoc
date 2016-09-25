@@ -1,0 +1,12 @@
+# a2dp-connect2
+
+This is a simple widget (not an app) to connect/disconnect from A2DP Bluetooth sinks.  That is all it does.
+
+.To use it:
+ . Install from Play Store
+ . Pair your Bluetooth devices using Android settings
+ . Turn Bluetooth ON
+ . Place an instance of this widget on your home screen (launcher dependent on how you do this)
+ . Click it to connect a device, again to disconnect.
+
+The widget will connect if the device is currently not connected, and disconnect if the device is currently connected.  
