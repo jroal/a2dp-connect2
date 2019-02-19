@@ -1,0 +1,95 @@
+-- Merging decision tree log ---
+manifest
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:1-22:12
+	package
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:3:5-28
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:35-62
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:3:29-87
+	android:versionCode
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:2:11-34
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.BLUETOOTH
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:4:5-84
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:4:22-65
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:5:5-90
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:5:22-71
+application
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:7:5-20:19
+	android:label
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:7:48-80
+	android:icon
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:7:18-47
+	android:allowBackup
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:7:81-107
+activity#a2dp.connect2.MainActivity
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:8:9-12:20
+	android:enabled
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:8:80-102
+	android:label
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:8:19-51
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:8:52-79
+intent-filter#action:name:android.intent.action.MAIN
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:9:13-11:29
+action#android.intent.action.MAIN
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:10:17-76
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:10:25-66
+receiver#a2dp.connect2.WidgetProvider
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:13:9-18:20
+	android:label
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:13:79-111
+	android:icon
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:13:49-78
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:13:19-48
+intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:14:13-16:29
+action#android.appwidget.action.APPWIDGET_UPDATE
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:15:17-83
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:15:25-81
+meta-data#android.appwidget.provider
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:17:13-103
+	android:resource
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:17:66-101
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:17:24-65
+service#a2dp.connect2.Connector
+ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:19:9-126
+	android:enabled
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:19:43-65
+	android:permission
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:19:66-115
+	android:name
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml:19:18-42
+uses-sdk
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+		ADDED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml
+		INJECTED from K:\github\a2dp-connect2a\app\src\main\AndroidManifest.xml

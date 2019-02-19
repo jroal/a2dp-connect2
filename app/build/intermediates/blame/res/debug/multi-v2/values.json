@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "K:\\github\\a2dp-connect2a\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "map": [
+                {
+                    "source": "K:\\github\\a2dp-connect2a\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "11,8,3,6,7,12,4,10,9,5,2",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "611,376,108,268,319,675,158,515,435,216,57",
+                        "endColumns": "62,57,48,49,55,58,56,94,78,50,49",
+                        "endOffsets": "669,429,152,313,370,729,210,605,509,262,102"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,118,176,225,275,331,390,447,542,621,672",
+                        "endColumns": "62,57,48,49,55,58,56,94,78,50,49",
+                        "endOffsets": "113,171,220,270,326,385,442,537,616,667,717"
+                    }
+                }
+            ]
+        }
+    ]
+}
