@@ -5,7 +5,10 @@ import java.util.Set;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothHeadset;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,13 +30,17 @@ public class WidgetProvider extends AppWidgetProvider {
 	@Override
 	public void onEnabled(Context context) {
 
+		Log.i(LOG_TAG,"Widget enabled");
 		super.onEnabled(context);
 	}
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
+		Log.i(LOG_TAG,"Widget receive");
 		// Toast.makeText(context, "onRecieve", Toast.LENGTH_LONG).show();
+        //String address = intent.getStringExtra()
+        //isDeviceConnected()
 		super.onReceive(context, intent);
 	}
 
@@ -79,4 +86,9 @@ public class WidgetProvider extends AppWidgetProvider {
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
 
+    public static boolean isDeviceConnected(String btd) {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
+                && mBluetoothAdapter.getProfileConnectionState(BluetoothA2dp.A2DP) == BluetoothA2dp.STATE_CONNECTED && mBluetoothAdapter.getRemoteDevice(btd) != null;
+    }
 }

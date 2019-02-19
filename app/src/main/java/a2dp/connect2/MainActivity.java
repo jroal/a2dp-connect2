@@ -16,6 +16,16 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+
+    private String PREFS = "bluetoothlauncher";
+    static boolean receiver_registered = false;
+
+    // int w_id = 0;
+    int mAppWidgetId;
+    public Context application;
+    String dname;
+    public final static String temp[][] = new String[50][2];
+
 	@Override
 	protected void onDestroy() {
 		try {
@@ -48,15 +58,6 @@ public class MainActivity extends Activity {
 	}
 
 
-	private String PREFS = "bluetoothlauncher";
-	static boolean receiver_registered = false;
-
-	// int w_id = 0;
-	int mAppWidgetId;
-	public Context application;
-	String dname;
-	public final static String temp[][] = new String[50][2];
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,7 @@ public class MainActivity extends Activity {
 					AppWidgetManager.INVALID_APPWIDGET_ID);
 		}
 
-		
 		config(mAppWidgetId);
-
 	}
 
 	public void config(final int id) {

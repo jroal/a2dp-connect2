@@ -38,6 +38,7 @@ public class Connector extends Service {
     public void onDestroy() {
         //this.unregisterReceiver(receiver);
 
+        done();
         super.onDestroy();
     }
 
@@ -120,7 +121,7 @@ public class Connector extends Service {
                 if (!receiverRegistered) {
                     String filter_1_string = "a2dp.connect2.Connector.INTERFACE";
                     IntentFilter filter1 = new IntentFilter(filter_1_string);
-                    this.registerReceiver(receiver, filter1);
+                    application.registerReceiver(receiver, filter1);
                     receiverRegistered = true;
                 }
 
@@ -149,7 +150,9 @@ public class Connector extends Service {
         Intent intent = new Intent();
         intent.setAction(filter_1_string);
         application.sendBroadcast(intent);
-    };
+    }
+
+    ;
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -157,7 +160,7 @@ public class Connector extends Service {
         public void onReceive(Context arg0, Intent arg1) {
             IBluetoothA2dp ibta = ibta2;
 
-            Log.i(LOG_TAG,"Received broadcast ");
+            Log.i(LOG_TAG, "Received broadcast ");
 
             try {
                 if (ibta != null && ibta.getConnectionState(device) == 0) {
@@ -185,11 +188,13 @@ public class Connector extends Service {
     public void onCreate() {
         // super.onCreate();
         application = getApplication();
-        String filter_1_string = "a2dp.connect2.Connector.INTERFACE";
-        IntentFilter filter1 = new IntentFilter(filter_1_string);
-        this.registerReceiver(receiver, filter1);
-        receiverRegistered = true;
 
+        if (!receiverRegistered) {
+            String filter_1_string = "a2dp.connect2.Connector.INTERFACE";
+            IntentFilter filter1 = new IntentFilter(filter_1_string);
+            application.registerReceiver(receiver, filter1);
+            receiverRegistered = true;
+        }
         getIBluetoothA2dp(application);
         serviceRegistered = true;
     }
@@ -232,16 +237,6 @@ public class Connector extends Service {
              * mBTA.cancelDiscovery(); mBTA.startDiscovery();
              */
             IBluetoothA2dp ibta = ibta2;
-            try {
-                Log.d(LOG_TAG, "Connecting/disconnecting: " + ibta.getPriority(device));
-                if (ibta != null && ibta.getConnectionState(device) == 0)
-                    ibta.connect(device);
-                else
-                    ibta.disconnect(device);
-
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Error " + e.getMessage());
-            }
 
         }
 
@@ -291,13 +286,13 @@ public class Connector extends Service {
         protected void onPostExecute(Boolean result) {
 
             super.onPostExecute(result);
-            done();
+            //done();
         }
 
         BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
 
         protected void onPreExecute() {
-            Log.i(LOG_TAG, "Running background task with ");
+            //Log.i(LOG_TAG, "Running background task with ");
         }
 
         @Override
@@ -320,11 +315,14 @@ public class Connector extends Service {
              */
             IBluetoothA2dp ibta = ibta2;
             try {
-                Log.d(LOG_TAG, "Here: " + ibta.getPriority(device));
-                if (ibta != null && ibta.getConnectionState(device) == 0)
+
+                if (ibta != null && ibta.getConnectionState(device) == 0) {
                     ibta.connect(device);
-                else
+                    Log.i(LOG_TAG, "Connecting: " + device.getName());
+                } else {
                     ibta.disconnect(device);
+                    Log.i(LOG_TAG, "Disconnecting: " + device.getName());
+                }
 
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Error " + e.getMessage());
@@ -338,7 +336,7 @@ public class Connector extends Service {
     private void done() {
         if (receiverRegistered) {
             try {
-                this.unregisterReceiver(receiver);
+                application.unregisterReceiver(receiver);
             } catch (Exception e) {
                 e.printStackTrace();
             }
