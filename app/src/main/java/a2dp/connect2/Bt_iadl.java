@@ -31,23 +31,6 @@ public class Bt_iadl {
 
 
 
-/*	public static ServiceConnection mConnection2 = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			m2IsBound = true;
-			ibt2 = IBluetooth.Stub.asInterface(service);
-			//getNames(.);
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			m2IsBound = false;
-
-		}
-
-	};*/
-
 	static void getNames(Context c1) {
 
 		int i = 0;
@@ -131,18 +114,6 @@ public class Bt_iadl {
 
 
 	}
-	
-/*	public static void doUnbindService2(Context context){
-		if (m2IsBound) {
-			try {
-				context.unbindService(mConnection2);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
-	}*/
 
 
 }

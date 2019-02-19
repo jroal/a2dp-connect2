@@ -1,22 +1,22 @@
 [
     {
-        "merged": "K:\\github\\a2dp-connect2a\\app\\build\\intermediates\\res\\merged\\debug\\layout_main.xml.flat",
-        "source": "K:\\github\\a2dp-connect2a\\app\\src\\main\\res\\layout\\main.xml"
+        "merged": "K:\\github\\a2dp-connect2\\app\\build\\intermediates\\res\\merged\\debug\\xml_widget_info.xml.flat",
+        "source": "K:\\github\\a2dp-connect2\\app\\src\\main\\res\\xml\\widget_info.xml"
     },
     {
-        "merged": "K:\\github\\a2dp-connect2a\\app\\build\\intermediates\\res\\merged\\debug\\xml_widget_info.xml.flat",
-        "source": "K:\\github\\a2dp-connect2a\\app\\src\\main\\res\\xml\\widget_info.xml"
+        "merged": "K:\\github\\a2dp-connect2\\app\\build\\intermediates\\res\\merged\\debug\\layout_widget_initial_layout.xml.flat",
+        "source": "K:\\github\\a2dp-connect2\\app\\src\\main\\res\\layout\\widget_initial_layout.xml"
     },
     {
-        "merged": "K:\\github\\a2dp-connect2a\\app\\build\\intermediates\\res\\merged\\debug\\layout_widget_initial_layout.xml.flat",
-        "source": "K:\\github\\a2dp-connect2a\\app\\src\\main\\res\\layout\\widget_initial_layout.xml"
+        "merged": "K:\\github\\a2dp-connect2\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon.png.flat",
+        "source": "K:\\github\\a2dp-connect2\\app\\src\\main\\res\\drawable\\icon.png"
     },
     {
-        "merged": "K:\\github\\a2dp-connect2a\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon.png.flat",
-        "source": "K:\\github\\a2dp-connect2a\\app\\src\\main\\res\\drawable\\icon.png"
+        "merged": "K:\\github\\a2dp-connect2\\app\\build\\intermediates\\res\\merged\\debug\\layout_main.xml.flat",
+        "source": "K:\\github\\a2dp-connect2\\app\\src\\main\\res\\layout\\main.xml"
     },
     {
-        "merged": "K:\\github\\a2dp-connect2a\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon2.png.flat",
-        "source": "K:\\github\\a2dp-connect2a\\app\\src\\main\\res\\drawable\\icon2.png"
+        "merged": "K:\\github\\a2dp-connect2\\app\\build\\intermediates\\res\\merged\\debug\\drawable_icon2.png.flat",
+        "source": "K:\\github\\a2dp-connect2\\app\\src\\main\\res\\drawable\\icon2.png"
     }
 ]
