@@ -1,8 +1,21 @@
 apply plugin: 'com.android.application'
 
+// Load keystore
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+
 android {
 
-
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
@@ -10,10 +23,13 @@ android {
         applicationId "a2dp.connect2"
         minSdkVersion 17
         targetSdkVersion 28
+        signingConfig signingConfigs.release
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
+            zipAlignEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }

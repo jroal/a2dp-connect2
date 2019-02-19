@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: K:\\github\\a2dp-connect2a\\app\\src\\main\\aidl\\android\\bluetooth\\IBluetooth.aidl
+ * Original file: K:\\github\\a2dp-connect2\\app\\src\\main\\aidl\\android\\bluetooth\\IBluetooth.aidl
  */
 package android.bluetooth;
 /**
