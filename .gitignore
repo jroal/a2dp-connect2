@@ -20,6 +20,8 @@ local.properties
 .gradle
 keystore.properties
 *.iml
+app/release
+app/build
 
 
 # External tool builders
