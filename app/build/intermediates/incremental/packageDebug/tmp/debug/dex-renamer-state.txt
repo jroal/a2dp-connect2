@@ -1,4 +1,0 @@
-#Tue Feb 19 20:17:54 CST 2019
-base.0=K\:\\github\\a2dp-connect2\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-path.0=classes.dex
-renamed.0=classes.dex
