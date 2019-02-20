@@ -3,6 +3,8 @@ package a2dp.connect2;
 import java.util.Set;
 
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.IBluetooth;
@@ -21,6 +23,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import static a2dp.connect2.Bt_iadl.c1;
@@ -74,7 +77,7 @@ public class Connector extends Service {
         if (extras != null) {
             w_id = extras.getInt("ID", 0);
 
-            Log.i(LOG_TAG, "connecting " + w_id);
+            Log.i(LOG_TAG, "Starting " + w_id);
         } else {
             Toast.makeText(application, "Oops", Toast.LENGTH_LONG).show();
             done();
@@ -160,7 +163,7 @@ public class Connector extends Service {
         public void onReceive(Context arg0, Intent arg1) {
             IBluetoothA2dp ibta = ibta2;
 
-            Log.i(LOG_TAG, "Received broadcast ");
+            //Log.i(LOG_TAG, "Received broadcast ");
 
             try {
                 if (ibta != null && ibta.getConnectionState(device) == 0) {
@@ -285,8 +288,9 @@ public class Connector extends Service {
         @Override
         protected void onPostExecute(Boolean result) {
 
+
+
             super.onPostExecute(result);
-            //done();
         }
 
         BluetoothAdapter bta = BluetoothAdapter.getDefaultAdapter();
@@ -314,11 +318,13 @@ public class Connector extends Service {
              * mBTA.cancelDiscovery(); mBTA.startDiscovery();
              */
             IBluetoothA2dp ibta = ibta2;
+
             try {
 
                 if (ibta != null && ibta.getConnectionState(device) == 0) {
                     ibta.connect(device);
                     Log.i(LOG_TAG, "Connecting: " + device.getName());
+
                 } else {
                     ibta.disconnect(device);
                     Log.i(LOG_TAG, "Disconnecting: " + device.getName());
@@ -328,6 +334,13 @@ public class Connector extends Service {
                 Log.e(LOG_TAG, "Error " + e.getMessage());
             }
 
+            Intent intent = new Intent(application, WidgetProvider.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+
+            int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), WidgetProvider.class));
+
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            sendBroadcast(intent);
             return true;
         }
 
@@ -352,4 +365,11 @@ public class Connector extends Service {
 
     }
 
+    public static boolean isDeviceConnected(String btd) {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        Boolean result = mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
+                && mBluetoothAdapter.getProfileConnectionState(BluetoothA2dp.A2DP) == BluetoothA2dp.STATE_CONNECTED && mBluetoothAdapter.getRemoteDevice(btd) != null;
+        Log.i(LOG_TAG,"Mac connected " + btd + " - " + result);
+        return  result;
+    }
 }

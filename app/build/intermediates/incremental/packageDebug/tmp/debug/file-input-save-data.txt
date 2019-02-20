@@ -1,7 +1,0 @@
-#Internal package file, do not edit.
-#Mon Feb 18 20:26:51 CST 2019
-0.baseType=DIRECTORY
-0.base=K\:\\github\\a2dp-connect2\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
-0.path=classes.dex
-0.set=DEX
-count=1

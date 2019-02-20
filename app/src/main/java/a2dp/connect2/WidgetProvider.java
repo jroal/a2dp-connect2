@@ -13,7 +13,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.Resources;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.RemoteViews;
 
 public class WidgetProvider extends AppWidgetProvider {
@@ -73,11 +75,19 @@ public class WidgetProvider extends AppWidgetProvider {
 					R.layout.widget_initial_layout);
 			views.setOnClickPendingIntent(R.id.WidgetButton, pendingIntent);
 
+
 			String WidgetId = String.valueOf(appWidgetId);
-			//String bt_mac = preferences.getString(WidgetId, "Oops");
+			String bt_mac = preferences.getString(WidgetId, "O");
 			String dname = preferences.getString(WidgetId + "_name", "Connect " + i);
-			
-			views.setTextViewText(R.id.WidgetButton, dname);
+            views.setTextViewText(R.id.WidgetButton, dname);
+
+            //set the icon based on connection state
+            if(bt_mac.length() == 17 && isDeviceConnected(bt_mac)){
+                views.setInt(R.id.WidgetButton,"setBackgroundResource", R.drawable.icon);
+            }else{
+                views.setInt(R.id.WidgetButton,"setBackgroundResource", R.drawable.icon2);
+            }
+
 			// Tell the AppWidgetManager to perform an update on the current App
 			// Widget
 			appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -88,7 +98,9 @@ public class WidgetProvider extends AppWidgetProvider {
 
     public static boolean isDeviceConnected(String btd) {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
+        Boolean result = mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
                 && mBluetoothAdapter.getProfileConnectionState(BluetoothA2dp.A2DP) == BluetoothA2dp.STATE_CONNECTED && mBluetoothAdapter.getRemoteDevice(btd) != null;
+        Log.i(LOG_TAG,"Mac connected " + btd + " - " + result);
+        return  result;
     }
 }
