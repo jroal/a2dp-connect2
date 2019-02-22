@@ -20,6 +20,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
@@ -34,13 +35,13 @@ import static a2dp.connect2.Bt_iadl.mIsBound;
 
 public class Connector extends Service {
 
-    private static Context application;
+    public static Context application;
     private static String DeviceToConnect;
 
     @Override
     public void onDestroy() {
         //this.unregisterReceiver(receiver);
-
+        Log.i(LOG_TAG, "OnDestroy called");
         done();
         super.onDestroy();
     }
@@ -228,7 +229,7 @@ public class Connector extends Service {
                     Log.i(LOG_TAG, "Service connecting " + device);
                     Intent intent = new Intent();
                     intent.setAction(filter_1_string);
-                    application.sendBroadcast(intent);
+                    //application.sendBroadcast(intent);
 
                     //ibta2.connect(device);
                 } catch (Exception e) {
@@ -287,8 +288,10 @@ public class Connector extends Service {
          */
         @Override
         protected void onPostExecute(Boolean result) {
+            Intent intent = new Intent(application, RunUpdate.class);
 
-
+            application.startService(intent);
+            //done();
 
             super.onPostExecute(result);
         }
@@ -334,19 +337,14 @@ public class Connector extends Service {
                 Log.e(LOG_TAG, "Error " + e.getMessage());
             }
 
-            Intent intent = new Intent(application, WidgetProvider.class);
-            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 
-            int[] ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), WidgetProvider.class));
-
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            sendBroadcast(intent);
             return true;
         }
 
     }
 
     private void done() {
+        Log.i(LOG_TAG, "Service stopping");
         if (receiverRegistered) {
             try {
                 application.unregisterReceiver(receiver);
@@ -369,7 +367,7 @@ public class Connector extends Service {
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         Boolean result = mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
                 && mBluetoothAdapter.getProfileConnectionState(BluetoothA2dp.A2DP) == BluetoothA2dp.STATE_CONNECTED && mBluetoothAdapter.getRemoteDevice(btd) != null;
-        Log.i(LOG_TAG,"Mac connected " + btd + " - " + result);
-        return  result;
+        Log.i(LOG_TAG, "Mac connected " + btd + " - " + result);
+        return result;
     }
 }

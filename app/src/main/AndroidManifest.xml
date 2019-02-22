@@ -1,40 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="a2dp.connect2"
-    android:versionCode="6"
-    android:versionName="2.0">
+    android:versionCode="7"
+    android:versionName="2.0.1">
 
-    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name">
+        <service
+            android:name=".RunUpdate"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <receiver
+            android:name=".BtReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.bluetooth.BluetoothDevice.ACTION_ACL_CONNECTED" />
+                <action android:name="android.bluetooth.BluetoothDevice.ACTION_ACL_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
         <activity
-            android:name="MainActivity"
+            android:name=".MainActivity"
             android:enabled="true"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
         <receiver
-            android:name="WidgetProvider"
+            android:name=".WidgetProvider"
             android:icon="@drawable/icon"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
+
         <service
-            android:name="Connector"
+            android:name=".Connector"
             android:enabled="true"
-            android:permission="android.permission.BLUETOOTH"></service>
+            android:permission="android.permission.BLUETOOTH" />
     </application>
 
 </manifest>
