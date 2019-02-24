@@ -1,26 +1,17 @@
 package a2dp.connect2;
 
-import java.util.Set;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothHeadset;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-
-import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.RemoteViews;
+
+
 
 public class WidgetProvider extends AppWidgetProvider {
 
@@ -87,29 +78,16 @@ public class WidgetProvider extends AppWidgetProvider {
             String bt_mac = preferences.getString(WidgetId, "O");
             String dname = preferences.getString(WidgetId + "_name", "Connect " + appWidgetId);
             views.setTextViewText(R.id.WidgetButton, dname);
-            //appWidgetManager.updateAppWidget(appWidgetId, views);
-
-            //set the icon based on connection state
-            if (bt_mac.length() == 17 && isDeviceConnected(bt_mac)) {
-                views.setInt(R.id.WidgetButton, "setBackgroundResource", R.drawable.icon);
-            } else {
-                views.setInt(R.id.WidgetButton, "setBackgroundResource", R.drawable.icon2);
-            }
-
 
             // Tell the AppWidgetManager to perform an update on the current App
             // Widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
 
         }
+
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
-    public static boolean isDeviceConnected(String btd) {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Boolean result = mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
-                && mBluetoothAdapter.getProfileConnectionState(BluetoothA2dp.A2DP) == BluetoothA2dp.STATE_CONNECTED && mBluetoothAdapter.getRemoteDevice(btd) != null;
-        Log.i(LOG_TAG, "Mac connected " + btd + " - " + result);
-        return result;
-    }
+
+
 }

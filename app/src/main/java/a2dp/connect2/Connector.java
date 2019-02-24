@@ -1,5 +1,7 @@
 package a2dp.connect2;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Set;
 
 import android.app.Service;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 
 import static a2dp.connect2.Bt_iadl.c1;
 import static a2dp.connect2.Bt_iadl.filter_1_string;
+import static a2dp.connect2.Bt_iadl.ibt2;
 import static a2dp.connect2.Bt_iadl.ibta2;
 import static a2dp.connect2.Bt_iadl.mIsBound;
 
@@ -227,21 +230,11 @@ public class Connector extends Service {
             if (device != null)
                 try {
                     Log.i(LOG_TAG, "Service connecting " + device);
-                    Intent intent = new Intent();
-                    intent.setAction(filter_1_string);
-                    //application.sendBroadcast(intent);
 
-                    //ibta2.connect(device);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(LOG_TAG, "Error connecting Bluetooth device " + e.getLocalizedMessage());
                 }
-
-            /*
-             * mBTA.cancelDiscovery(); mBTA.startDiscovery();
-             */
-            IBluetoothA2dp ibta = ibta2;
-
         }
 
         @Override
@@ -270,7 +263,7 @@ public class Connector extends Service {
         i.setPackage(filter);
 
         if (context.bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
-            Log.i(LOG_TAG, "mConnection service bound");
+            Log.i(LOG_TAG, "mConnection service bound " + context.getPackageCodePath());
             //Toast.makeText(context, "started service connection", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Bluetooth start service connection failed", Toast.LENGTH_SHORT).show();
@@ -286,12 +279,13 @@ public class Connector extends Service {
          *
          * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
          */
+
+        String btd;
         @Override
         protected void onPostExecute(Boolean result) {
             Intent intent = new Intent(application, RunUpdate.class);
-
+            intent.putExtra("BT", btd );
             application.startService(intent);
-            //done();
 
             super.onPostExecute(result);
         }
@@ -317,6 +311,8 @@ public class Connector extends Service {
             }
             if (device == null)
                 return false;
+
+            btd = device.getAddress();
             /*
              * mBTA.cancelDiscovery(); mBTA.startDiscovery();
              */
@@ -363,11 +359,5 @@ public class Connector extends Service {
 
     }
 
-    public static boolean isDeviceConnected(String btd) {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Boolean result = mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
-                && mBluetoothAdapter.getProfileConnectionState(BluetoothA2dp.A2DP) == BluetoothA2dp.STATE_CONNECTED && mBluetoothAdapter.getRemoteDevice(btd) != null;
-        Log.i(LOG_TAG, "Mac connected " + btd + " - " + result);
-        return result;
-    }
+
 }

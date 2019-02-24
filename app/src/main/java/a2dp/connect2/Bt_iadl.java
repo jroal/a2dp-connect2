@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.IBluetooth;
@@ -22,12 +23,13 @@ public class Bt_iadl {
 
 	public static final String filter_1_string = "a2dp.connect2.Connector.INTERFACE";
 	public static String NameFilter = "a2dp.connect2.Connector.NAME";
-	static IBluetoothA2dp ibta2 = null;
+	public static IBluetoothA2dp ibta2 = null;
 	static IBluetooth ibt2 = null;
 	static String address;
 	static Context c1;
 	public static boolean mIsBound = false;
 	public static boolean m2IsBound = false;
+	static String LOG_TAG = "Bt-iadl";
 
 
 
@@ -45,7 +47,7 @@ public class Bt_iadl {
 					String dname = device.getName();
 
 					try {
-						Method m = device.getClass().getMethod("getAlias");
+						Method m = device.getClass().getMethod("getAliasName");
 						Object res = m.invoke(device);
 						if (res != null)
 							dname = res.toString();
@@ -82,38 +84,27 @@ public class Bt_iadl {
 		c1.sendBroadcast(intent);
 	};
 
-	public static ServiceConnection mConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-
-		mIsBound = true;
-			ibta2 = IBluetoothA2dp.Stub.asInterface(service);
-			sendIntent();
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			mIsBound = false;
-
-		}
-
-	};
-
-	public static void doUnbindService(Context context) {
-		if (mIsBound) {
-			// Detach our existing connection.
-			try {
-				context.unbindService(mConnection);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
 
 
-	}
 
+
+    public static boolean isDeviceConnected(String btd)  {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(btd);
+
+
+        int sinkState = 0;
+        try {
+            sinkState = ibta2.getConnectionState(device);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        Boolean connected = sinkState == BluetoothA2dp.STATE_CONNECTED || sinkState == BluetoothA2dp.STATE_CONNECTING;
+
+        Boolean result = mBluetoothAdapter != null && mBluetoothAdapter.isEnabled()
+                && mBluetoothAdapter.getProfileConnectionState(BluetoothA2dp.A2DP) == BluetoothA2dp.STATE_CONNECTED && connected ;
+        Log.i(LOG_TAG, "Mac connected " + btd + " - " + result);
+        return result;
+    }
 
 }
