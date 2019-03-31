@@ -11,4 +11,6 @@
     <string name="NeedEnable">Bluetooth must be enabled before you can place a widget</string>
     <string name="BTNotEnabled">Bluetooth not enabled</string>
     <string name="InterfaceError">Interface error</string>
+    <string name="foreground_channel_name">Foreground Channel</string>
+    <string name="foreground_channel_description">Foreground notification channel</string>
 </resources>

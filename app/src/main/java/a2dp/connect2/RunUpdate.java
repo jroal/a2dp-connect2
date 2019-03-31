@@ -1,5 +1,9 @@
 package a2dp.connect2;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.bluetooth.BluetoothA2dp;
@@ -12,12 +16,16 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 
 public class RunUpdate extends Service {
@@ -34,6 +42,10 @@ public class RunUpdate extends Service {
     static  SharedPreferences preferences;
     static Context application;
     static RemoteViews views;
+    private NotificationManager mNotificationManager = null;
+    private NotificationManagerCompat notificationManagerCompat = null;
+    private static final String A2DP_FOREGROUND = "a2dp_foreground";
+    NotificationChannel channel_f;
 
     public RunUpdate() {
 
@@ -92,6 +104,8 @@ public class RunUpdate extends Service {
         preferences = getApplicationContext().getSharedPreferences(PREFS, 0);
         views = new RemoteViews(this.getPackageName(),
                 R.layout.widget_initial_layout);
+        if(!mIsBound) getIBluetoothA2dp(this);
+        notificationManagerCompat = NotificationManagerCompat.from(application);
         super.onCreate();
     }
 
@@ -144,10 +158,12 @@ public class RunUpdate extends Service {
 
 
         int sinkState = 0;
-        try {
-            sinkState = ibta2.getConnectionState(device);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+        if (device != null) {
+            try {
+                sinkState = ibta2.getConnectionState(device);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
         Boolean connected = sinkState == BluetoothA2dp.STATE_CONNECTED || sinkState == BluetoothA2dp.STATE_CONNECTING;
 
@@ -170,5 +186,69 @@ public class RunUpdate extends Service {
         }
 
 
+    }
+
+// This will only be needed if I ever start this as a foreground service.
+
+    private void updatenot() {
+        if (channel_f == null) createNotificationChannel();
+        if (mNotificationManager != null) {
+            mNotificationManager.cancelAll();
+        } else {
+            createNotificationChannel();
+        }
+        if (notificationManagerCompat != null) {
+            notificationManagerCompat.cancelAll();
+        } else {
+            createNotificationChannel();
+        }
+
+        String temp = "";
+        Notification not = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            not = new NotificationCompat.Builder(application, A2DP_FOREGROUND)
+                    .setContentTitle(
+                            getResources().getString(R.string.app_name))
+
+                    .setSmallIcon(R.drawable.icon)
+                    .setCategory(Notification.CATEGORY_SERVICE)
+                    .setContentText(temp)
+                    .setChannelId(A2DP_FOREGROUND).build();
+            notificationManagerCompat.notify(1, not);
+            //Toast.makeText(application, "Test on " + car + " " +not.getChannelId(), Toast.LENGTH_LONG).show();
+        } else {
+            not = new NotificationCompat.Builder(application, LAUNCHER_APPS_SERVICE)
+                    .setContentTitle(
+                            getResources().getString(R.string.app_name))
+                    //.setContentIntent(contentIntent)
+                    .setSmallIcon(R.drawable.icon)
+                    .setContentText(temp)
+                    .setPriority(Notification.PRIORITY_LOW)
+                    .build();
+            notificationManagerCompat.notify(1, not);
+        }
+        this.startForeground(1, not);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void createNotificationChannel() {
+        mNotificationManager = getSystemService(NotificationManager.class);
+        //notificationManagerCompat = NotificationManagerCompat.from(application);
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            // set up foreground notification channel
+            CharSequence name2 = getString(R.string.foreground_channel_name);
+            String description2 = getString(R.string.foreground_channel_description);
+            int importance2 = NotificationManager.IMPORTANCE_LOW;
+            channel_f = new NotificationChannel(A2DP_FOREGROUND, name2, importance2);
+            channel_f.setDescription(description2);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            mNotificationManager.createNotificationChannel(channel_f);
+
+        }
     }
 }

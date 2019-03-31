@@ -4,6 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
 import android.bluetooth.BluetoothA2dp;
@@ -21,10 +25,14 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -40,22 +48,8 @@ public class Connector extends Service {
 
     public static Context application;
     private static String DeviceToConnect;
-
-    @Override
-    public void onDestroy() {
-        //this.unregisterReceiver(receiver);
-        Log.i(LOG_TAG, "OnDestroy called");
-        done();
-        super.onDestroy();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-
-
-        super.finalize();
-    }
-
+    private static final String A2DP_FOREGROUND = "a2dp_foreground";
+    NotificationChannel channel_f;
     static final int ENABLE_BLUETOOTH = 1;
     private String PREFS = "bluetoothlauncher";
     private static String LOG_TAG = "A2DP_Connect";
@@ -64,8 +58,26 @@ public class Connector extends Service {
     private String bt_mac;
     boolean serviceRegistered = false;
     boolean receiverRegistered = false;
+    private NotificationManager mNotificationManager = null;
+    private NotificationManagerCompat notificationManagerCompat = null;
 
     int w_id;
+
+    @Override
+    public void onDestroy() {
+        //this.unregisterReceiver(receiver);
+
+        Log.i(LOG_TAG, "OnDestroy called");
+        done();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+
+        done();
+        super.finalize();
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -133,6 +145,7 @@ public class Connector extends Service {
                 }
 
                 sendIntent();
+                updatenot();
                 //connectBluetoothA2dp(bt_mac);
 
             } else {
@@ -159,7 +172,6 @@ public class Connector extends Service {
         application.sendBroadcast(intent);
     }
 
-    ;
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -195,6 +207,8 @@ public class Connector extends Service {
     public void onCreate() {
         // super.onCreate();
         application = getApplication();
+        //mNotificationManager = getSystemService(NotificationManager.class);
+        notificationManagerCompat = NotificationManagerCompat.from(application);
 
         if (!receiverRegistered) {
             String filter_1_string = "a2dp.connect2.Connector.INTERFACE";
@@ -281,12 +295,14 @@ public class Connector extends Service {
          */
 
         String btd;
+
         @Override
         protected void onPostExecute(Boolean result) {
             Intent intent = new Intent(application, RunUpdate.class);
-            intent.putExtra("BT", btd );
+            intent.putExtra("BT", btd);
             application.startService(intent);
 
+            done();
             super.onPostExecute(result);
         }
 
@@ -339,11 +355,13 @@ public class Connector extends Service {
 
     }
 
+
     private void done() {
         Log.i(LOG_TAG, "Service stopping");
         if (receiverRegistered) {
             try {
                 application.unregisterReceiver(receiver);
+                receiverRegistered = false;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -355,9 +373,77 @@ public class Connector extends Service {
                 e.printStackTrace();
             }
         }
+
+        mNotificationManager.cancel(1);
+        mNotificationManager.cancelAll();
+        notificationManagerCompat.cancelAll();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            this.stopForeground(Service.STOP_FOREGROUND_REMOVE);
+        }
+        this.stopForeground(true);
         this.stopSelf();
 
     }
 
+    private void updatenot() {
+        if (channel_f == null) createNotificationChannel();
+        if (mNotificationManager != null) {
+            mNotificationManager.cancelAll();
+        } else {
+            createNotificationChannel();
+        }
+        if (notificationManagerCompat != null) {
+            notificationManagerCompat.cancelAll();
+        } else {
+            createNotificationChannel();
+        }
 
+        String temp = "";
+        Notification not = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            not = new NotificationCompat.Builder(application, A2DP_FOREGROUND)
+                    .setContentTitle(
+                            getResources().getString(R.string.app_name))
+
+                    .setSmallIcon(R.drawable.icon)
+                    .setCategory(Notification.CATEGORY_SERVICE)
+                    .setContentText(temp)
+                    .setChannelId(A2DP_FOREGROUND).build();
+            notificationManagerCompat.notify(1, not);
+            //Toast.makeText(application, "Test on " + car + " " +not.getChannelId(), Toast.LENGTH_LONG).show();
+        } else {
+            not = new NotificationCompat.Builder(application, LAUNCHER_APPS_SERVICE)
+                    .setContentTitle(
+                            getResources().getString(R.string.app_name))
+                    //.setContentIntent(contentIntent)
+                    .setSmallIcon(R.drawable.icon)
+                    .setContentText(temp)
+                    .setPriority(Notification.PRIORITY_LOW)
+                    .build();
+            notificationManagerCompat.notify(1, not);
+        }
+        this.startForeground(1, not);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void createNotificationChannel() {
+        mNotificationManager = getSystemService(NotificationManager.class);
+        //notificationManagerCompat = NotificationManagerCompat.from(application);
+
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            // set up foreground notification channel
+            CharSequence name2 = getString(R.string.foreground_channel_name);
+            String description2 = getString(R.string.foreground_channel_description);
+            int importance2 = NotificationManager.IMPORTANCE_LOW;
+            channel_f = new NotificationChannel(A2DP_FOREGROUND, name2, importance2);
+            channel_f.setDescription(description2);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            mNotificationManager.createNotificationChannel(channel_f);
+
+        }
+    }
 }
