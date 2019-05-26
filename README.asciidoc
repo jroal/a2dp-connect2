@@ -12,3 +12,5 @@ This is a simple widget (not an app) to connect/disconnect from A2DP Bluetooth s
 The widget will connect if the device is currently not connected, and disconnect if the device is currently connected.  
 
 Become a Beta tester here: https://play.google.com/apps/testing/a2dp.connect2
+
+This app is a mess.  I have numerous timing and cross thread problems and need a real developer to help me architect this correctly.
