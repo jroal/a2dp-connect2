@@ -13,4 +13,4 @@ The widget will connect if the device is currently not connected, and disconnect
 
 Become a Beta tester here: https://play.google.com/apps/testing/a2dp.connect2
 
-This app is a mess.  I have numerous timing and cross thread problems and need a real developer to help me architect this correctly.  I am starting to integrate this widget into link:https://github.com/jroal/a2dpvolume[A2DP Volume] instead of having it be a separate executable. 
+This app is a mess.  I have numerous timing and cross thread problems and need a real developer to help me architect this correctly. *I integrated this widget into link:https://github.com/jroal/a2dpvolume[A2DP Volume] instead of having it be a separate executable.* 
