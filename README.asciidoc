@@ -1,6 +1,6 @@
 # a2dp-connect2
 
-*This separate widget is going away.  Instead it is now integrated into link:https://github.com/jroal/a2dpvolume[A2DP Volume] starting with version 2.13.0.0.  Become a tester here https://play.google.com/apps/testing/a2dp.Vol and get that app now.*
+*This separate widget is going away.  Instead it is now integrated into link:https://github.com/jroal/a2dpvolume[A2DP Volume] starting with version 2.13.0.0.  Become a tester here https://play.google.com/apps/testing/a2dp.Vol and get that app now.*  See details of how to use the widget here: https://github.com/jroal/a2dpvolume/wiki/Widgets
 
 This is a simple widget (not an app) to connect/disconnect from A2DP Bluetooth sinks.  That is all it does.
 
